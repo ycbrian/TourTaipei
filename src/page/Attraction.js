@@ -58,7 +58,12 @@ const Attraction = props => {
                 更多資訊：
               </label>
             )}
-            <a href={url} target="_blank" className="attr-infoLink">
+            <a
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="attr-infoLink"
+            >
               {url}
             </a>
             <Link to="/">
