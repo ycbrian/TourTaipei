@@ -23,6 +23,15 @@ body {
   --color-secondary-dark: #494a41;
 }
 
+/* media-query */
+@media only screen and (max-width: 1080px) {
+  *,
+  *::after,
+  *::before {
+    font-size: 58%;
+  }
+}
+
 /* loader */
 .loader-box {
   width: 100vw;
