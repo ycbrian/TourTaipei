@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import Home from "./page/Home";
+import Attraction from "./page/Attraction";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { dataHandle } from "./util/dataHandle";
 
-function App() {
+const App = () => {
+  const [travelData, setTravelData] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://cors-anywhere.herokuapp.com/https://www.travel.taipei/open-api/zh-tw/Attractions/All",
+      {
+        headers: new Headers({
+          accept: "application/json"
+        })
+      }
+    )
+      .then(response => {
+        // console.log(response);
+        return response.json();
+      })
+      .then(result => {
+        // console.log(result.data);
+        setTravelData(dataHandle(result.data));
+      })
+      .catch(error => console.log(error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route path="/" exact>
+        <Home travelData={travelData} />
+      </Route>
+      <Route path="/:id" exact>
+        <Attraction travelData={travelData} />
+      </Route>
+      <Redirect to="/" exact />
+    </Switch>
   );
-}
+};
 
 export default App;
